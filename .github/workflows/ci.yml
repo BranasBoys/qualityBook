@@ -33,3 +33,9 @@ jobs:
         
       - name: Check commit message linting
         uses: wagoid/commitlint-github-action@v5
+
+      - name: Coveralls
+        uses: coverallsapp/github-action@master
+        with:
+          path-to-lcov: ./coverage/lcov.info
+          github-token: ${{ secrets.GITHUB_TOKEN }}
