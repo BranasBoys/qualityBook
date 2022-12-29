@@ -1,0 +1,35 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [ "master" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v3.5.1
+        with:
+          node-version: 18
+          cache: yarn
+          cache-dependency-path: yarn.lock
+      
+      - name: Install dependencies
+        run: yarn
+        
+      - name: Test
+        run: yarn test --coverage
+        
+      - name: Check linting
+        run: yarn lint
+        
+      - name: Check commit message linting
+        uses: wagoid/commitlint-github-action@v5
